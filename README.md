@@ -9,7 +9,7 @@ How to run:
   - alternatively, ```$ bash bidsify.sh``` works too, by running the job locally and not in a remote node
 
 Note:
-You should create a config file, as outlined in the [```dcm2bids``` documentation](https://unfmontreal.github.io/Dcm2Bids/3.2.0/how-to/create-config-file/)
+You should create a config.json file, as outlined in the [```dcm2bids``` documentation](https://unfmontreal.github.io/Dcm2Bids/3.2.0/how-to/create-config-file/), and located it in your dataset directory ($input_dir in config.sh)
 Requirements:
 - Libraries:
   - [Datalad](https://github.com/datalad) and its dependencies 
