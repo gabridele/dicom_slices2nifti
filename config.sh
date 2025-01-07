@@ -6,7 +6,6 @@ root_dir='/home/gabridele/backup'
 singularity_img='/home/gabridele/backup/backup_files/dcm2bids_latest.sif'
 input_dir='/home/gabridele/backup/backup_deidentified_rsfmri/rsfMRI'
 input_bound='/dicoms'
-output_dir='/home/gabridele/backup'
 dataset='Biof_2312'
 output_bound='/bids'
 
