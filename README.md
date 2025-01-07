@@ -13,3 +13,5 @@ Requirements:
   - [Datalad](https://github.com/datalad) and its dependencies 
   - [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/installation.html)
 - Downloading singularity image [```dcm2bids```](https://unfmontreal.github.io/Dcm2Bids/3.0.1/get-started/install/#containers)
+
+In case some dicom acquisitions are made slice by slice, you will be notified by the script that some subjects acquisitions don't match the number of scans you defined. In that case a txt file with the filepaths will be produced. That txt file can be used as a flag with the python script.
