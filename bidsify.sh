@@ -16,7 +16,7 @@ function bids_scaffold {
  singularity exec \
  -e --containall \
  -B "$input_dir":/"$input_bound":ro \
- -B "$output_dir":/"$output_bound" \
+ -B "$root_dir":/"$output_bound" \
  $singularity_img dcm2bids_scaffold -o $output_bound/$dataset --force
 
 }
@@ -29,7 +29,7 @@ function log_message {
 function bidsify { 
     # Input validation
     [[ ! -d "$input_dir" ]] && { log_message "Error: input_dir not found"; exit 1; }
-    [[ ! -d "$output_dir" ]] && { log_message "Error: output_dir not found"; exit 1; }
+    [[ ! -d "$root_dir" ]] && { log_message "Error: root_dir not found"; exit 1; }
 
     for ((i=1; i<=n_sub; i++)); do
 
@@ -39,7 +39,7 @@ function bidsify {
                         sort -rn | \
                         head -n1 || echo "0")
 
-        SINGULARITY_OPTS="-e -containall -B $input_dir:/$input_bound:ro -B $output_dir:/$output_bound"
+        SINGULARITY_OPTS="-e -containall -B $input_dir:/$input_bound:ro -B $root_dir:/$output_bound"
         COMMON_ARGS="--auto_extract_entities --bids_validate -o /$output_bound"
 
         if [[ -z "$session_count" || "$session_count" -eq 0 ]]; then
@@ -58,7 +58,7 @@ function bidsify {
                 if [[ "$file_count" -ne "$num_scans" ]]; then
                     log_message "Warning: Expected $num_scans files in $session_dir, but found $file_count. Skipping session."
                     actual_path_dicom=$(eval echo $gen_path_dicom)
-                    echo "$actual_path_dicom" >> "$output_dir/$dataset/code/skipped_bidsify_sess.txt"
+                    echo "$actual_path_dicom" >> "$root_dir/$dataset/code/skipped_bidsify_sess.txt"
                     continue
                 fi
 
@@ -68,7 +68,7 @@ function bidsify {
                     -c /"$input_bound"/config.json \
                     -s ${ii} \
                     -p 0${i}
-                log_message "Skipped sessions are logged in $output_dir/$dataset/code/skipped_bidsify_sess.txt"
+                log_message "Skipped sessions are logged in $root_dir/$dataset/code/skipped_bidsify_sess.txt"
             done
         fi
     done
@@ -79,8 +79,8 @@ bids_scaffold
 pwd
 
 # cd to dataset and make it datalad dataset
-cd $output_dir/$dataset
-if [[ "$(pwd)" == "$output_dir/$dataset" ]]; then
+cd $root_dir/$dataset
+if [[ "$(pwd)" == "$root_dir/$dataset" ]]; then
     datalad create -c text2git -f
 else
     echo "Error: Not in the correct directory to create dataset"
@@ -93,7 +93,7 @@ pwd
 datalad save -d . -m 'created bids scaffold'
 
 # paste dataset into sourcedata
-cp -r "$input_dir"/* "$output_dir/$dataset/sourcedata"
+cp -r "$input_dir"/* "$root_dir/$dataset/sourcedata"
 
 # save changes
 datalad save -d . -m 'copied dataset into sourcedata dir'
