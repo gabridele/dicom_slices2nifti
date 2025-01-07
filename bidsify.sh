@@ -1,8 +1,14 @@
 #!/bin/bash
-#SBATCH -t 00:20:00
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=1
+#SBATCH -t 00:30:00
+#SBATCH -N 2
+#SBATCH --ntasks-per-node=4
 #SBATCH -J dcm2niixTest2
+#SBATCH --output=job_output.log # Standard output log
+#SBATCH --error=job_error.log   # Standard error log
+
+module load GCC/12.2.0
+module load Anaconda3/2022.05
+source /sw/easybuild_milan/software/Anaconda3/2022.05/bin/activate ~/.conda/envs/babs_28_11
 
 source $root_dir/config.sh || {
     echo "Error: Failed to source config file"
@@ -115,6 +121,3 @@ bidsify
 
 # save changes
 datalad save -m 'bidsified dataset'
-
-
-
