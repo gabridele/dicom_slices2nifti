@@ -2,6 +2,8 @@
 
 #n_sessions=4 do not input session num because script extracts it
 n_sub=10
+root_dir='/home/gabridele/backup'
+path_to_singularity='/home/gabridele/backup/backup_files/dcm2bids_latest.sif'
 input_dir='/home/gabridele/backup/backup_deidentified_rsfmri/rsfMRI'
 input_bound='/dicoms'
 output_dir='/home/gabridele/backup'
