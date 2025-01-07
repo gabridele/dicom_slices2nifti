@@ -23,7 +23,7 @@ dataset="Biof_2312"
 # name of bound output dir (arbitrary name)
 output_bound="/bids"
 
-# num of scans per session, useful if some sessions are acquired differently. \
+# num of scans per session, useful if some sessions are acquired differently. It assumes same protocol across subs/sessions, except for slices vs volumes acquisitions\
 ## i.e., each dicom file is a slice, not a volume. in that case use python script
 num_scans=462
 
