@@ -44,6 +44,16 @@ function bidsify {
 
         if [[ -z "$session_count" || "$session_count" -eq 0 ]]; then
             log_message "No sessions found for subject sub-0${i}. Running without session option."
+            
+            file_count=$(find "$session_dir" -type f | wc -l)
+                
+                if [[ "$file_count" -ne "$num_scans" ]]; then
+                    log_message "Warning: Expected $num_scans files in $n_sub, but found $file_count. Skipping session."
+                    actual_path_dicom=$(eval echo $gen_path_dicom)
+                    echo "$actual_path_dicom" >> "$root_dir/$dataset/code/skipped_bidsify_sess.txt"
+                    continue
+                fi
+            
             singularity run $SINGULARITY_OPTS $singularity_img \
                 $COMMON_ARGS \
                 -d /"$input_bound"/sub-0${i} \
