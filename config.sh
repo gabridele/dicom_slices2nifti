@@ -2,15 +2,15 @@
 
 #n_sessions=4 do not input session num because script extracts it
 n_sub=10
-root_dir='/home/gabridele/backup'
-singularity_img='/home/gabridele/backup/backup_files/dcm2bids_latest.sif'
-input_dir='/home/gabridele/backup/backup_deidentified_rsfmri/rsfMRI'
-input_bound='/dicoms'
-dataset='Biof_2312'
-output_bound='/bids'
+root_dir="/home/gabridele/backup"
+singularity_img="${root_dir}/backup_files/dcm2bids_latest.sif"
+input_dir="${root_dir}/backup_deidentified_rsfmri/rsfMRI"
+input_bound="/dicoms"
+dataset="Biof_2312"
+output_bound="/bids"
 
 num_scans=462
-gen_path_dicom="/home/gabridele/backup/backup_deidentified_rsfmri/rsfMRI/sub-0${i}/session${ii}/DCM/Serie*"
+gen_path_dicom="${root_dir}/backup_deidentified_rsfmri/rsfMRI/sub-0${i}/session${ii}/DCM/Serie*"
 
 # input participant number range (aka num of participants, supposes they are consecutive numbers)
 # path dir to input
