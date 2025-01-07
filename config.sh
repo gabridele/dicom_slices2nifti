@@ -1,24 +1,31 @@
 # Do not run this script, it is meant to be sourced by the main script
 
-#n_sessions=4 do not input session num because script extracts it
-n_sub=10
-root_dir="/home/gabridele/backup"
-singularity_img="${root_dir}/backup_files/dcm2bids_latest.sif"
-input_dir="${root_dir}/backup_deidentified_rsfmri/rsfMRI"
-input_bound="/dicoms"
-dataset="Biof_2312"
-output_bound="/bids"
-
-num_scans=462
-gen_path_dicom="${root_dir}/backup_deidentified_rsfmri/rsfMRI/sub-0${i}/session${ii}/DCM/Serie*"
+#n_sessions do not input session num because script extracts it
 
 # input participant number range (aka num of participants, supposes they are consecutive numbers)
+n_sub=10
+
+# path to root directory
+root_dir="/home/gabridele/backup"
+
+#path to singularity image
+singularity_img="${root_dir}/backup_files/dcm2bids_latest.sif"
+
 # path dir to input
+input_dir="${root_dir}/backup_deidentified_rsfmri/rsfMRI"
+
 # name of bound input dir (arbitrary name)
-# path dir to output
+input_bound="/dicoms"
+
 # name of dataset folder
+dataset="Biof_2312"
+
 # name of bound output dir (arbitrary name)
+output_bound="/bids"
 
 # num of scans per session, useful if some sessions are acquired differently. \
 ## i.e., each dicom file is a slice, not a volume. in that case use python script
+num_scans=462
+
 # general path to dicom files, useful to create txt file containing paths, for python script input. Use wilcard * to match all paths across subjs
+gen_path_dicom="${root_dir}/backup_deidentified_rsfmri/rsfMRI/sub-0${i}/session${ii}/DCM/Serie*"
