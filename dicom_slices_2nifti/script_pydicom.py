@@ -88,12 +88,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert DICOM slices into a 4D NIfTI file.")
     parser.add_argument(
         "-i", "--input-dir", 
-        required=True, 
         help="Path to the input directory containing DICOM files."
     )
     parser.add_argument(
         "-o", "--output-dir", 
-        required=True, 
         help="Path to the output directory to save the NIfTI file."
     )
     parser.add_argument(
@@ -101,7 +99,29 @@ if __name__ == "__main__":
         default="nifti_file.nii.gz", 
         help="Name of the output NIfTI file (default: nifti_file.nii.gz)."
     )
+    parser.add_argument(
+        "-t", "--txt-file", 
+        help="Path to a text file where each line is a dir containing input DICOM files to process."
+    )
 
     args = parser.parse_args()
 
-    main(args.input_dir, args.output_dir, args.output_filename)
+    def extract_output_info(input_path):
+        parts = input_path.split('/')
+        session_part = next((part for part in parts if part.startswith('session')), 'session')
+        subject_part = next((part for part in parts if part.startswith('sub-')), 'sub')
+        task_part = 'task-rest' if 'rs' in input_path.lower() else 'task-unknown'
+        output_dir = os.path.join(*parts[:parts.index(session_part) + 1])
+        output_filename = f"{subject_part}_{session_part}_{task_part}_bold.nii.gz"
+        return output_dir, output_filename
+
+    if args.txt_file:
+        with open(args.txt_file, 'r') as file:
+            input_dirs = file.read().splitlines()
+        for input_dir in input_dirs:
+            output_dir, output_filename = extract_output_info(input_dir)
+            main(input_dir, output_dir, output_filename)
+    elif args.input_dir and args.output_dir:
+        main(args.input_dir, args.output_dir, args.output_filename)
+    else:
+        print("Either --input-dir and --output-dir or --txt-file must be provided.")
