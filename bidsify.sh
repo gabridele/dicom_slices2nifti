@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH -J dcm2niixTest2
 
-source /home/gabridele/backup/config.sh || {
+source $root_dir/config.sh || {
     echo "Error: Failed to source config file"
     exit 1
 }
@@ -17,7 +17,7 @@ function bids_scaffold {
  -e --containall \
  -B "$input_dir":/"$input_bound":ro \
  -B "$output_dir":/"$output_bound" \
- /home/gabridele/backup/backup_files/dcm2bids_latest.sif dcm2bids_scaffold -o $output_bound/$dataset --force
+ $singularity_img dcm2bids_scaffold -o $output_bound/$dataset --force
 
 }
 
@@ -44,7 +44,7 @@ function bidsify {
 
         if [[ -z "$session_count" || "$session_count" -eq 0 ]]; then
             log_message "No sessions found for subject sub-0${i}. Running without session option."
-            singularity run $SINGULARITY_OPTS /home/gabridele/backup/backup_files/dcm2bids_latest.sif \
+            singularity run $SINGULARITY_OPTS $singularity_img \
                 $COMMON_ARGS \
                 -d /"$input_bound"/sub-0${i} \
                 -c /"$input_bound"/config.json \
@@ -62,7 +62,7 @@ function bidsify {
                     continue
                 fi
 
-                singularity run $SINGULARITY_OPTS /home/gabridele/backup/backup_files/dcm2bids_latest.sif \
+                singularity run $SINGULARITY_OPTS $singularity_img \
                     $COMMON_ARGS \
                     -d /"$input_bound"/sub-0${i}/session${ii} \
                     -c /"$input_bound"/config.json \
