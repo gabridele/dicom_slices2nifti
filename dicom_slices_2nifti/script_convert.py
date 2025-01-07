@@ -124,4 +124,4 @@ if __name__ == "__main__":
     elif args.input_dir and args.output_dir:
         main(args.input_dir, args.output_dir, args.output_filename)
     else:
-        print("Either --input-dir and --output-dir or --txt-file must be provided.")
+        print("Either --input-dir, --output-dir, and (optionally) --output-filename or --txt-file must be provided.")
