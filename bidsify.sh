@@ -52,6 +52,7 @@ function bidsify {
             log_message "No sessions found for subject sub-0${i}. Running without session option."
             
             file_count=$(find "$session_dir" -type f | wc -l)
+                echo "file count: ${file_count}"
                 
                 if [[ "$file_count" -ne "$num_scans" ]]; then
                     log_message "Warning: Expected $num_scans files in $n_sub, but found $file_count. Skipping session."
@@ -114,7 +115,7 @@ cp -r "$input_dir"/* "$root_dir/$dataset/sourcedata"
 # save changes
 datalad save -d . -m 'copied dataset into sourcedata dir'
 
-cd ~/backup
+cd $root_dir
 
 # bidsify dicoms
 bidsify
