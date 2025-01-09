@@ -18,10 +18,11 @@ source $root_dir/config.sh || {
 echo "Working on dataset: $dataset"
 
 # first create a scaffold (optional tho) according to bids structure
+# needs -f flag to fake root permission, otherwise you get permissoin denied error
+
 function bids_scaffold {
  singularity exec \
- -e --containall \
- -B "$input_dir":/"$input_bound":ro \
+ -f -e --containall \
  -B "$root_dir":/"$output_bound" \
  $singularity_img dcm2bids_scaffold -o $output_bound/$dataset --force
 
@@ -53,7 +54,7 @@ function bidsify {
             
             file_count=$(find "$session_dir" -type f | wc -l)
                 echo "file count: ${file_count}"
-                
+
                 if [[ "$file_count" -ne "$num_scans" ]]; then
                     log_message "Warning: Expected $num_scans files in $n_sub, but found $file_count. Skipping session."
                     actual_path_dicom=$(eval echo $gen_path_dicom)
@@ -70,7 +71,7 @@ function bidsify {
             log_message "Processing subject sub-0${i} with $session_count sessions"
             for ((ii=1; ii<=session_count; ii++)); do
                 session_dir="/$input_bound/sub-0${i}/session${ii}/*/*"
-                file_count=$(find "$session_dir" -type f | wc -l)
+                file_count=$(find "$input_bound/sub-0${i}/session${ii}" -type f | wc -l)
                 
                 if [[ "$file_count" -ne "$num_scans" ]]; then
                     log_message "Warning: Expected $num_scans files in $session_dir, but found $file_count. Skipping session."
