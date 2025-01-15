@@ -22,17 +22,18 @@ singularity exec \
 
 
 # # cd to dataset and make it datalad dataset
-# cd $root_dir/$dataset
-# if [[ "$(pwd)" == "$root_dir/$dataset" ]]; then
-#     datalad create -c text2git -f
-# else
-#     echo "Error: Not in the correct directory to create dataset"
-#     exit 1
-# fi
-# echo "Dataset datalad status:"
-# datalad status
+cd $root_dir/$dataset
+if [[ "$(pwd)" == "$root_dir/$dataset" ]]; then
+    datalad create -c text2git -f
+else
+    echo "Error: Not in the correct directory to create dataset"
+    exit 1
+fi
+
+echo "Dataset datalad status:"
+datalad status
 
 # # save scaffold
-# datalad save -d . -m 'created bids scaffold'
+datalad save -d . -m 'created bids scaffold'
 # #it works
 # it fucking worked before and not not anymore. didnt change much command wise
