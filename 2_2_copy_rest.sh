@@ -1,4 +1,5 @@
 #!/bin/bash
+# script for copying rest of data, e.g. metadata, config files, etc. into sourcedata folder
 
 set -e -u -x
 module load GCC/12.2.0

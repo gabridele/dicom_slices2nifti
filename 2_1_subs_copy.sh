@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# script for copying subject directories
 set -e -u -x
 module load GCC/12.2.0
 module load Anaconda3/2022.05

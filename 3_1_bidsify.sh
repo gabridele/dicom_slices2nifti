@@ -1,4 +1,5 @@
 #!/bin/bash
+# script called by 3_datalad_dcm2bids.sh
 
 set -e -u -x
 module load GCC/12.2.0

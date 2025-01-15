@@ -16,6 +16,8 @@ source config.sh || {
     echo "Error: Failed to source config file"
     exit 1
 }
+
+# iterating thru each subject directory and session dir to run dcm2bids and automatically save changes, thru datalad run
 for subid in $(find $dataset/sourcedata -mindepth 1 -maxdepth 1 -type d -name 'sub-*' | sed -E 's|.*/sub-([0-9]+)$|\1|' | sort -n); do
 	for sesid in $(find $dataset/sourcedata/sub-${subid} -mindepth 1 -maxdepth 1 -type d -name 'session*' | sed -E 's|.*/session([0-9]+)$|\1|' | sort -n); do
     	echo "Processing sub-${subid} ses-${sesid}"
