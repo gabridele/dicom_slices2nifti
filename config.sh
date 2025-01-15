@@ -6,19 +6,19 @@
 n_sub=10
 
 # path to root directory
-root_dir="/home/gabridele/backup"
+root_dir="$PWD"
 
 #path to singularity image
-singularity_img="${root_dir}/backup_files/dcm2bids_latest.sif"
+singularity_img="${root_dir}/../backup_files/dcm2bids_latest.sif"
 
 # path dir to input
-input_dir="${root_dir}/backup_deidentified_rsfmri/rsfMRI"
+input_dir="${root_dir}/../backup_deidentified_rsfmri/rsfMRI"
 
 # name of bound input dir (arbitrary name)
 input_bound="/dicoms"
 
 # name of dataset folder
-dataset="Biof_2312"
+dataset="Biof_1401"
 
 # name of bound output dir (arbitrary name)
 output_bound="/bids"
@@ -28,4 +28,4 @@ output_bound="/bids"
 num_scans=462
 
 # general path to dicom files, useful to create txt file containing paths, for python script input. Use wilcard * to match all paths across subjs
-gen_path_dicom="${root_dir}/backup_deidentified_rsfmri/rsfMRI/sub-0${i}/session${ii}/DCM/Serie*"
+#gen_path_dicom="${root_dir}/../backup_deidentified_rsfmri/rsfMRI/sub-0${i}/session${ii}/DCM/Serie*"
