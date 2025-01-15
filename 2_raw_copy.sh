@@ -24,7 +24,7 @@ datalad status -d $root_dir/$dataset
 for subdir in sub-*; do
     if [ -d "$subdir" ]; then
         datalad run \
-	    	-i code/2_1_raw_copy.sh \
+	    	-i code/2_1_subs_copy.sh \
 	        -i "$input_dir" \
 	        --expand both \
 	        --explicit \
@@ -38,7 +38,7 @@ done
 for other in *; do
     if [ -d "$other" ] && [[ "$other" != sub-* ]]; then
         datalad run \
-            -i code/2_1_raw_copy.sh \
+            -i code/2_2_copy_rest.sh \
             -i "$input_dir" \
             --expand both \
             --explicit \

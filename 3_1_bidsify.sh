@@ -19,10 +19,7 @@ sesid="$2"
 
 # if sesid = none
 if [[ -z "$sesid" ]]; then
-    if [[ "$sesid" == "session4" ]]; then
-        echo "Skipping subject $subid with session $sesid"
-        exit 0
-    fi
+    
     echo "Processing subject $subid with no sessions"    
     singularity run -e -containall \
         -B $input_dir:/$input_bound \
@@ -36,7 +33,10 @@ if [[ -z "$sesid" ]]; then
 
 
 else
-
+    if [[ "$sesid" == "session4" ]]; then
+        echo "Skipping subject $subid with session $sesid"
+        exit 0
+    fi
     echo "Processing subject $subid, $sesid"
 
     singularity run -e -containall \
