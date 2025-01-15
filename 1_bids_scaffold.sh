@@ -14,7 +14,7 @@ source $PWD/config.sh || {
     exit 1
 }
 
-
+# run singularity image to create bids scaffold
 singularity exec \
     -f -e --containall \
     -B "$root_dir":/"$output_bound" \
