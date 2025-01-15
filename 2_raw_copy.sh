@@ -21,6 +21,8 @@ cd "$input_dir"
 echo "I'm in $PWD"
 datalad status -d $root_dir/$dataset
 
+# iterate through each subject dir and copy it into sourcedata folder. datalad run also allows for automatic /
+# tracking of changes (aka datalad save)
 for subdir in sub-*; do
     if [ -d "$subdir" ]; then
         datalad run \
@@ -35,6 +37,7 @@ for subdir in sub-*; do
     fi
 done
 
+# copying the rest of data, e.g. config files, etc. into sourcedata folder
 for other in *; do
     if [ -d "$other" ] && [[ "$other" != sub-* ]]; then
         datalad run \
