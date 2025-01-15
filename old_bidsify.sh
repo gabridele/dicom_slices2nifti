@@ -8,9 +8,10 @@
 
 module load GCC/12.2.0
 module load Anaconda3/2022.05
+module load parallel/20230722
 source /sw/easybuild_milan/software/Anaconda3/2022.05/bin/activate ~/.conda/envs/babs_28_11
 
-source $root_dir/config.sh || {
+source config.sh || {
     echo "Error: Failed to source config file"
     exit 1
 }
@@ -51,16 +52,6 @@ function bidsify {
 
         if [[ -z "$session_count" || "$session_count" -eq 0 ]]; then
             log_message "No sessions found for subject sub-0${i}. Running without session option."
-            
-            file_count=$(find "$session_dir" -type f | wc -l)
-                echo "file count: ${file_count}"
-
-                if [[ "$file_count" -ne "$num_scans" ]]; then
-                    log_message "Warning: Expected $num_scans files in $n_sub, but found $file_count. Skipping session."
-                    actual_path_dicom=$(eval echo $gen_path_dicom)
-                    echo "$actual_path_dicom" >> "$root_dir/$dataset/code/skipped_bidsify_sess.txt"
-                    continue
-                fi
             
             singularity run $SINGULARITY_OPTS $singularity_img \
                 $COMMON_ARGS \
@@ -109,10 +100,11 @@ pwd
 
 # save scaffold
 datalad save -d . -m 'created bids scaffold'
-
+echo "now proceeding to copy"
 # paste dataset into sourcedata
-cp -r "$input_dir"/* "$root_dir/$dataset/sourcedata"
-
+# cp -r "$input_dir"/* "$root_dir/$dataset/sourcedata"
+find "$input_dir" -type f | parallel -j 4 -I {} rsync -Rav "{}" "$root_dir/$dataset/sourcedata/"
+echo "now datalad saving"
 # save changes
 datalad save -d . -m 'copied dataset into sourcedata dir'
 
