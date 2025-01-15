@@ -17,7 +17,7 @@ subid="$1"
 strippedid=$(echo "$subid" | sed 's/^sub-//')
 sesid="$2"
 
-# if sesid = none
+# if sesid = none / processing subjects with no sessions
 if [[ -z "$sesid" ]]; then
     
     echo "Processing subject $subid with no sessions"    
@@ -33,10 +33,13 @@ if [[ -z "$sesid" ]]; then
 
 
 else
+    # in my case, skip session 4 because its acquisition is not compatible with this bidsifying pipeline
+    # see python script for it
     if [[ "$sesid" == "session4" ]]; then
         echo "Skipping subject $subid with session $sesid"
         exit 0
     fi
+    # process subjects with sessions
     echo "Processing subject $subid, $sesid"
 
     singularity run -e -containall \
